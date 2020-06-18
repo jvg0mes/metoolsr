@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>metools</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">metools</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="https://metoolsr.wordpress.com">Website</a>
+</li>
+<li>
+  <a href="brazil.html">Brazil</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">metools</h1>
+
+</div>
+
+
+<style type="text/css">
+h1.title{
+  font-size: 52px;
+  text-align:center;
+}
+p{
+  font-size:16px;
+}
+h3{
+  font-size:18px;
+  text-align:center;
+}
+table{
+  margin-left:auto;
+  margin-right:auto;
+}
+td {
+  padding: 0.5em;
+}
+.hljs-comment{
+  color:blue;
+}
+</style>
+<p><br> <br></p>
+<p>Esse é o guia oficial do pacote metools, ele tem como função explicar melhor as funções do pacote e mostrar exemplos de como elas podem ser utilizadas corretamente.<br></p>
+<p>O principal objetivo do pacote metools é facilitar a produção de gráficos e relatórios, mais especificamente para trabalhos macroeconômicos. As funções são dividas em funções graficas e manipuladoras de dados. <br> Veja abaixo as funções do pacote e suas respectivas divisões: <br></p>
+<h3 style="text-align=center;font-size:14px">
+<strong>Manipulação de dados</strong>
+</h3>
+<table class="table" style="width: auto !important; float: right; margin-left: 10px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+cuminyear
+</td>
+<td style="text-align:left;">
+Variação acumulada no ano
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cuminyear_var
+</td>
+<td style="text-align:left;">
+Variação acumulada no ano para valores decimais
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cum_var
+</td>
+<td style="text-align:left;">
+Variação acumulada
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pct_change
+</td>
+<td style="text-align:left;">
+Variação percentual em t períodos de uma série
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+num2month
+</td>
+<td style="text-align:left;">
+Transforma o nome dos meses em número dos meses
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+month2num
+</td>
+<td style="text-align:left;">
+Transforma o número dos meses em nome dos meses
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+me.lag
+</td>
+<td style="text-align:left;">
+Atrasa ou adianta um vetor de acordo com o valor de t
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+me.spread
+</td>
+<td style="text-align:left;">
+Muda a disposição de um dataframe (long -&gt; wide)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+stattable
+</td>
+<td style="text-align:left;">
+Tabela de estatísticas descritivas
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="width: auto !important; margin-right: 0; margin-left: auto">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+col2char
+</td>
+<td style="text-align:left;">
+Tranforma as colunas definidas em caractere
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+col2factor
+</td>
+<td style="text-align:left;">
+Tranforma as colunas definidas em fator
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+col2num
+</td>
+<td style="text-align:left;">
+Tranforma as colunas definidas em número
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+col2percent
+</td>
+<td style="text-align:left;">
+Adiciona o símbolo percentual nas colunas definidas
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+colpct2num
+</td>
+<td style="text-align:left;">
+Remove o símbolo percentual das colunas definidas, e transforma em número
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+colround
+</td>
+<td style="text-align:left;">
+Arredonda as colunas definidas
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="width: auto !important; float: left; margin-right: 10px;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Plot
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+p.line
+</td>
+<td style="text-align:left;">
+Gráfico de linha
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.col
+</td>
+<td style="text-align:left;">
+Gráfico de colunas
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.col_ord
+</td>
+<td style="text-align:left;">
+Gráfico de colunas ordenado
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.col_ord_wl
+</td>
+<td style="text-align:left;">
+Gráfico de colunas ordenado com legenda
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.col_wl
+</td>
+<td style="text-align:left;">
+Gráfico de colunas com legenda
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.tscol
+</td>
+<td style="text-align:left;">
+Gráfico de colunas de série temporal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.tsl
+</td>
+<td style="text-align:left;">
+Gráfico de linha de série temporal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.gradientcolor
+</td>
+<td style="text-align:left;">
+Cria um gradiente
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.seqdatebreaks
+</td>
+<td style="text-align:left;">
+Cria um intervalo de datas
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.colorbypositive
+</td>
+<td style="text-align:left;">
+Colore de acordo com o sinal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+p.colorbyvar
+</td>
+<td style="text-align:left;">
+Colore de acordo com a variação
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mp.s
+</td>
+<td style="text-align:left;">
+Plotagem múltipla de séries
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mp.ts
+</td>
+<td style="text-align:left;">
+Plotagem múltipla de séries temporais
+</td>
+</tr>
+</tbody>
+</table>
+<table class="table" style="width: auto !important; ">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Modelos gráficos
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+gm.col
+</td>
+<td style="text-align:left;">
+Gráfico de colunas
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.col_ord
+</td>
+<td style="text-align:left;">
+Gráfico de colunas ordenado
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.col_ord_wl
+</td>
+<td style="text-align:left;">
+Gráfico de colunas ordenado com legenda
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.col_wl
+</td>
+<td style="text-align:left;">
+Gráfico de colunas com legenda
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.line
+</td>
+<td style="text-align:left;">
+Gráfico de linha
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.tsl
+</td>
+<td style="text-align:left;">
+Gráfico de linha de série temporal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.tscol
+</td>
+<td style="text-align:left;">
+Gráfico de colunas de série temporal
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+gm.tscol2
+</td>
+<td style="text-align:left;">
+Gráfico de colunas de série temporal
+</td>
+</tr>
+</tbody>
+</table>
+<p style="font-size:11px;text-align:center">
+<strong>Observe que todas as funções da categoria gráfica tem um prefixo,<br> isso serve para distinguir as funções gráficas das manipuladoras de dados.<br> Nas próximas sessões serão explicadas cada categoria e suas funções.</strong>
+</p>
+<p><br> <br></p>
+<p>Para a aplicação dos exemplos será utilizada uma série temporal do GDP dos Estados Unidos da América(USA), ela foi retirada do ‘World Bank’, para uma execução fidedigna dos exemplos eles estão disponíveis para download clickando aqui. Em alguns exemplos serão utilizados codigos da preparação desse guia, devido a similaridade com a preparação de um relatório, já que foi feito em R Markdown.</p>
+<p><br></p>
+<h2 style="text-align:center;font-size:32px">
+<strong>Funções manipuladoras de dados</strong>
+</h2>
+<br>
+<p style="margin-left:auto">
+<p>As funções manipuladoras de dados não tem um prefixo definido, boa parte dessas funções trabalham com data.frames, algumas exceções devem ser trabalhadas com vetor. Veja abaixo cada uma das funções manipuladoras de dados detalhadamente.</p>
+</p>
+<h3 style="font-size:22px;">
+<strong>col2char</strong>
+</h3>
+<p>A função col2char recebe um objeto dataframe em seu parâmetro x e retorna um novo dataframe com as colunas definidas entre o parâmetro ‘start’ e ‘end’ na classe caractére.</p>
+<p style="text-align:center;">
+<strong>col2char(x,start,end)</strong>
+<p>
+<p style="text-align:center;">
+x: objeto dataframe<br>start: número da coluna inicial<br>end: número da coluna final
+<p>
+<p>Transformações de classe em um dataframe podem exigir um número considerável de linhas de codigo, especialmente quando se é iniciante na programação. A função col2char busca solucionar esse problema. Para criar esse guia foi necessário algumas transformações no dataframe da tabela de funções, mesmo sendo um exemplo simples e pequeno, demonstra bem a utilidade dessa função.</p>
+<pre class="r"><code># Utilizando as funções base do R
+mp_functions[[1]]=as.character(mp_functions[[1]])
+mp_functions[[2]]=as.character(mp_functions[[2]])
+plot_functions[[1]]=as.character(plot_functions[[1]])
+plot_functions[[2]]=as.character(plot_functions[[2]])
+
+# Utilizando a função col2char do metools
+mp_functions=col2char(mp_functions,start=1)
+plot_functions=col2char(plot_functions,start=1)</code></pre>
+<p>Utilizando as funções base do R são necessárias quatro linhas para transformar duas colunas de dois dataframes, utilizando a função col2char o número de linhas se reduz pela metade. Isso é importante, porque muitas vezes dataframes contém mais de dez colunas.</p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>col2factor</strong>
+</h3>
+<p>A função col2factor recebe um objeto dataframe em seu parâmetro x e retorna um novo dataframe com as colunas definidas entre o parâmetro ‘start’ e ‘end’ na classe factor.</p>
+<p style="text-align:center;">
+<strong>col2factor(x,start,end)</strong>
+<p>
+<p style="text-align:center;">
+x: objeto dataframe<br>start: número da coluna inicial<br>end: número da coluna final
+<p>
+<pre class="r"><code>#Transformando a coluna data em factor
+usagdp=col2factor(usagdp,start=1,end=1)
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual...
+## 1 2010-01-01          14.99205              2.563767
+## 2 2011-01-01          15.54258              1.550836
+## 3 2012-01-01          16.19701              2.249546
+## 4 2013-01-01          16.78485              1.842081
+## 5 2014-01-01          17.52175              2.451973
+## 6 2015-01-01          18.21930              2.880910
+## 7 2016-01-01          18.70719              1.567215
+## 8 2017-01-01          19.48539              2.217010
+## 9 2018-01-01          20.54434              2.927323</code></pre>
+<pre class="r"><code>#Veja os níveis
+levels(usagdp[[1]])</code></pre>
+<pre><code>## [1] &quot;2010-01-01&quot; &quot;2011-01-01&quot; &quot;2012-01-01&quot; &quot;2013-01-01&quot; &quot;2014-01-01&quot;
+## [6] &quot;2015-01-01&quot; &quot;2016-01-01&quot; &quot;2017-01-01&quot; &quot;2018-01-01&quot;</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>col2num</strong>
+</h3>
+<p>A função col2num recebe um objeto dataframe em seu parâmetro x e retorna um novo dataframe com as colunas definidas entre o parâmetro ‘start’ e ‘end’ na classe númerica.</p>
+<p style="text-align:center;">
+<strong>col2num(x,start,end)</strong>
+<p>
+<p style="text-align:center;">
+x: objeto dataframe<br>start: número da coluna inicial<br>end: número da coluna final
+<p>
+<pre class="r"><code>#Transform GDP columns in numeric.
+usagdp=col2num(usagdp,start=2,end=3)
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual...
+## 1 2010-01-01          14.99205              2.563767
+## 2 2011-01-01          15.54258              1.550836
+## 3 2012-01-01          16.19701              2.249546
+## 4 2013-01-01          16.78485              1.842081
+## 5 2014-01-01          17.52175              2.451973
+## 6 2015-01-01          18.21930              2.880910
+## 7 2016-01-01          18.70719              1.567215
+## 8 2017-01-01          19.48539              2.217010
+## 9 2018-01-01          20.54434              2.927323</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>col2percent</strong>
+</h3>
+<p>A função col2percent recebe um objeto dataframe em seu parâmetro x e retorna um novo dataframe com as colunas definidas entre o parâmetro ‘start’ e ‘end’ na classe caractére mas com o sinal de porcentagem.</p>
+<p style="text-align:center;">
+<strong>col2percent(x,start,end,mult100)</strong>
+<p>
+<p style="text-align:center;">
+x: um objeto dataframe<br>start: número da coluna inicial<br>end: número da coluna final<br>mult100: se os valores estiverem na forma decimal, use isso para resolver
+<p>
+<pre class="r"><code>#Transforma a coluna &#39;GDP growht&#39; em percentual
+usagdp=col2percent(usagdp,start=3,end=3)
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual...
+## 1 2010-01-01          14.99205     2.56376655876581%
+## 2 2011-01-01          15.54258     1.55083550568156%
+## 3 2012-01-01          16.19701     2.24954585236992%
+## 4 2013-01-01          16.78485     1.84208107101102%
+## 5 2014-01-01          17.52175     2.45197303536034%
+## 6 2015-01-01          18.21930     2.88091046605219%
+## 7 2016-01-01          18.70719     1.56721516997864%
+## 8 2017-01-01          19.48539     2.21701033031884%
+## 9 2018-01-01          20.54434     2.92732272821085%</code></pre>
+<p>Se os valores estiverem na forma decimal, você pode utilizar o parâmetro mult100 para resolver isso, veja abaixo:</p>
+<pre class="r"><code>#Transforma a coluna &#39;GDP growht&#39; em percentual
+usagdp2=col2percent(usagdp,start=3,end=3,mult100=TRUE)
+usagdp=cbind(usagdp,&quot;Resultado da função&quot;=usagdp2[,3])
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual... Resultado da função
+## 1 2010-01-01          14.99205            0.02563767   2.56376655876581%
+## 2 2011-01-01          15.54258            0.01550836   1.55083550568156%
+## 3 2012-01-01          16.19701            0.02249546   2.24954585236992%
+## 4 2013-01-01          16.78485            0.01842081   1.84208107101102%
+## 5 2014-01-01          17.52175            0.02451973   2.45197303536034%
+## 6 2015-01-01          18.21930            0.02880910   2.88091046605219%
+## 7 2016-01-01          18.70719            0.01567215   1.56721516997864%
+## 8 2017-01-01          19.48539            0.02217010   2.21701033031884%
+## 9 2018-01-01          20.54434            0.02927323   2.92732272821085%</code></pre>
+<p><br></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>colpct2num</strong>
+</h3>
+<p>colpct2num recebe um objeto dataframe em seu parâmetro x e retorna um novo dataframe com as colunas definidas entre o parâmetro ‘start’ e ‘end’ na classe númerica, utilize essa função para transformar colunas que tem o sinal de porcentagem.</p>
+<p style="text-align:center;">
+<strong>colpct2num(x,start,end,div100)</strong>
+<p>
+<p style="text-align:center;">
+x: objeto dataframe<br>start: número da coluna inicial<br>end: número da coluna final<br>div100: se precisar do resultado em forma decimal use isso
+<p>
+<pre class="r"><code>#Transforma a coluna &#39;GDP growht&#39; em númerica.
+usagdp=colpct2num(usagdp,start=3,end=3,div100=FALSE)
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual...
+## 1 2010-01-01          14.99205              2.563767
+## 2 2011-01-01          15.54258              1.550836
+## 3 2012-01-01          16.19701              2.249546
+## 4 2013-01-01          16.78485              1.842081
+## 5 2014-01-01          17.52175              2.451973
+## 6 2015-01-01          18.21930              2.880910
+## 7 2016-01-01          18.70719              1.567215
+## 8 2017-01-01          19.48539              2.217010
+## 9 2018-01-01          20.54434              2.927323</code></pre>
+<p>Se os valores estiverem na forma inteira, você pode utilizar o parâmetro div100 para resolver isso, veja abaixo:</p>
+<pre class="r"><code>#Transforma a coluna &#39;GDP growht&#39; em númerica.
+usagdp=colpct2num(usagdp,start=3,end=3,div100=TRUE)
+usagdp=cbind(usagdp,&quot;Resultado da função&quot;=usagdp2[,3])
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual... Resultado da função
+## 1 2010-01-01          14.99205            0.02563767   2.56376655876581%
+## 2 2011-01-01          15.54258            0.01550836   1.55083550568156%
+## 3 2012-01-01          16.19701            0.02249546   2.24954585236992%
+## 4 2013-01-01          16.78485            0.01842081   1.84208107101102%
+## 5 2014-01-01          17.52175            0.02451973   2.45197303536034%
+## 6 2015-01-01          18.21930            0.02880910   2.88091046605219%
+## 7 2016-01-01          18.70719            0.01567215   1.56721516997864%
+## 8 2017-01-01          19.48539            0.02217010   2.21701033031884%
+## 9 2018-01-01          20.54434            0.02927323   2.92732272821085%</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>colround</strong>
+</h3>
+<p>A função colround recebe um objeto dataframe no parametro x e retorna um novo dataframe com as colunas definidas entre o parâmetro ‘start’ e ‘end’ com os valores arredondados. Resumindo, essa função arredonda os valores das colunas.</p>
+<p style="text-align:center;">
+<strong>colround(x,start,end,div100)</strong>
+<p>
+<p style="text-align:center;">
+x: objeto dataframe<br>start: número da coluna inicial<br>end: número da coluna final<br>digits: número de dígitos
+<p>
+<pre class="r"><code>#Arredondando as colunas
+usagdp=colround(usagdp,start=2,end=3,digits=2)
+usagdp</code></pre>
+<pre><code>##         Date GDP..current.US.. GDP.growth..annual...
+## 1 2010-01-01             14.99                  2.56
+## 2 2011-01-01             15.54                  1.55
+## 3 2012-01-01             16.20                  2.25
+## 4 2013-01-01             16.78                  1.84
+## 5 2014-01-01             17.52                  2.45
+## 6 2015-01-01             18.22                  2.88
+## 7 2016-01-01             18.71                  1.57
+## 8 2017-01-01             19.49                  2.22
+## 9 2018-01-01             20.54                  2.93</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>cuminyear</strong>
+</h3>
+<p>A função cuminyear calcula a variação acumulada no ano de um indíce. Os dados devem iniciar em janeiro, utilize o parâmetro ‘start’ para garantir isso. Se seus dados não iniciarem em janeiro e você necessita usar esses valores, considere completar os meses anteriores com 0.</p>
+<p style="text-align:center;">
+<strong>cuminyear(data,coldate,colnum,start)</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br>coldate: número da coluna data<br>colnum: número da coluna valores<br>start: número da linha inicial
+<p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(100,110,105,115,118,95,92,100,108,105,110,112)) #Criando uma série temporal aleatória
+
+cuminyear(randomts,coldate = 1,colnum=2,start=1)</code></pre>
+<pre><code>##  [1]  0.00  0.10  0.05  0.15  0.18 -0.05 -0.08  0.00  0.08  0.05  0.10  0.12</code></pre>
+<p>Como mencionado anteriormente, os dados necessitam iniciar em janeiro, veja abaixo exemplos de como resolver esse problema.</p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-04-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(115,118,95,92,100,108,105,110,112)) #Criando uma série temporal aleatória
+
+# Como podemos ver, os dados não iniciam em janeiro, temos duas maneiras de resolver isso:
+# primeira -&gt; completar os dados com o primeiro valor:
+randomts=merge.data.frame(x=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-03-01&#39;),&#39;month&#39;)),&quot;Valor&quot;=rep(randomts[1,2])),y=randomts,all = T)
+cuminyear(randomts,coldate = 1,colnum=2,start=1)</code></pre>
+<pre><code>##  [1]  0.00000000  0.00000000  0.00000000  0.00000000  0.02608696 -0.17391304
+##  [7] -0.20000000 -0.13043478 -0.06086957 -0.08695652 -0.04347826 -0.02608696</code></pre>
+<pre class="r"><code># segundo -&gt; utilizando o parâmetro &#39;start&#39; para definir a linha para iniciar
+# Nesse caso necessitamos que os dados contenham mais de um ano, vejamos em uma nova série.
+randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2018-09-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(100,102,96,98,100,110,105,115,118,95,92,100,108,105,110,112))
+# agora nós podemos iniciar na terceira linha, em janeiro de 2019.
+cuminyear(randomts,coldate = 1,colnum=2,start=5)</code></pre>
+<pre><code>##  [1]    NA    NA    NA    NA  0.00  0.10  0.05  0.15  0.18 -0.05 -0.08  0.00
+## [13]  0.08  0.05  0.10  0.12</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>cuminyear_var</strong>
+</h3>
+<p>A função cuminyear_var calcula a variação acumulada no ano de uma taxa, _var significa que os dados necessitam ser uma variação perecentual. Os dados precisam iniciar em janeiro, se seus dados não iniciam em janeiro e você precisa desses valores, considere completar os meses antêriores com 0.</p>
+<p style="text-align:center;">
+<strong>cuminyear_var(data,coldate,colnum,start)</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br>coldate: número da coluna data<br>colnum: número da coluna valores<br>div100: se seus dados percentuais não estiverem representados como inteiros, use isso
+<p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valores&quot;=c(0.02,0.06,0.04,-0.06,-0.02,0.01,-0.06,0.03,0.08,0.01,0.05,0.03))
+
+cuminyear_var(randomts,coldate = 1,colnum = 2)</code></pre>
+<pre><code>##        Valores
+## 1   0.02000000
+## 2   0.08120000
+## 3   0.12444800
+## 4   0.05698112
+## 5   0.03584150
+## 6   0.04619991
+## 7  -0.01657208
+## 8   0.01293076
+## 9   0.09396522
+## 10  0.10490487
+## 11  0.16015011
+## 12  0.19495461</code></pre>
+<p>Como mencionado anteriormente, os dados necessitam iniciar em janeiro, veja abaixo exemplos de como resolver esse problema.</p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-04-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(-0.06,-0.02,0.01,-0.06,0.03,0.08,0.01,0.05,0.03))
+randomts</code></pre>
+<pre><code>##         Data Valor
+## 1 2019-04-01 -0.06
+## 2 2019-05-01 -0.02
+## 3 2019-06-01  0.01
+## 4 2019-07-01 -0.06
+## 5 2019-08-01  0.03
+## 6 2019-09-01  0.08
+## 7 2019-10-01  0.01
+## 8 2019-11-01  0.05
+## 9 2019-12-01  0.03</code></pre>
+<pre class="r"><code># Como podemos observar, os dados não iniciam em janeiro, para resolver isso podemos completar os dados com 0.
+
+randomts=merge.data.frame(x=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-03-01&#39;),&#39;month&#39;)),&quot;Valor&quot;=rep(0)),y=randomts,all = T)
+cuminyear_var(randomts,coldate = 1,colnum=2)</code></pre>
+<pre><code>##          Valor
+## 1   0.00000000
+## 2   0.00000000
+## 3   0.00000000
+## 4  -0.06000000
+## 5  -0.07880000
+## 6  -0.06958800
+## 7  -0.12541272
+## 8  -0.09917510
+## 9  -0.02710911
+## 10 -0.01738020
+## 11  0.03175079
+## 12  0.06270331</code></pre>
+<p>Se seus dados estão representados como inteiros, o parâmetro div100 deve ser TRUE para se obter os resultados corretos. Veja o parâmetro div100 utilizado no exemplo abaixo:</p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+cuminyear_var(randomts,coldate = 1,colnum=2,div100=T)</code></pre>
+<pre><code>##          Valor
+## 1   0.02000000
+## 2   0.08120000
+## 3   0.12444800
+## 4   0.05698112
+## 5   0.03584150
+## 6   0.04619991
+## 7  -0.01657208
+## 8   0.01293076
+## 9   0.09396522
+## 10  0.10490487
+## 11  0.16015011
+## 12  0.19495461</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>cum_var</strong>
+</h3>
+<p>A função cum_var calcula a variação acumulada de uma taxa durante um determinado periodo de tempo, _var significa que os dados devem ser uma variação perecental.</p>
+<p style="text-align:center;">
+<strong>cum_var(data,colnum,t,div100=F)</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br>colnum: número da coluna valores<br>t: número de períodos para acumular<br>div100: se seus dados percentuais estiverem representados como inteiros, use isso
+<p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(0.02,0.06,0.04,-0.06,-0.02,0.01,-0.06,0.03,0.08,0.01,0.05,0.03))
+cum_var(randomts,colnum=2,t=3,div100=F)</code></pre>
+<pre><code>##        Valor
+## 1         NA
+## 2         NA
+## 3   0.124448
+## 4   0.036256
+## 5  -0.041952
+## 6  -0.069588
+## 7  -0.069588
+## 8  -0.022118
+## 9   0.045656
+## 10  0.123524
+## 11  0.145340
+## 12  0.092315</code></pre>
+<p>Se seus dados estão representados como inteiros, o parâmetro div100 deve ser TRUE para se obter resultados corretos. Veja o parâmetro div100 utilizado no exemplo abaixo:</p>
+<pre class="r"><code>randomts=data.frame(&quot;Data&quot;=as.Date(seq.Date(as.Date(&#39;2019-01-01&#39;),as.Date(&#39;2019-12-01&#39;),&#39;month&#39;)),
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+cum_var(randomts,colnum=2,t=3,div100=T)</code></pre>
+<pre><code>##        Valor
+## 1         NA
+## 2         NA
+## 3   0.124448
+## 4   0.036256
+## 5  -0.041952
+## 6  -0.069588
+## 7  -0.069588
+## 8  -0.022118
+## 9   0.045656
+## 10  0.123524
+## 11  0.145340
+## 12  0.092315</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>pct_change</strong>
+</h3>
+<p>A função pct_change calcula a variação percentual em t periodos de uma séria. Essa função pode ser utilizada para calcular a variação acumulada de um indíce, por exemplo, para calcular a variação acumulada em 12 meses defina o parâmetro ‘t’ como 12.</p>
+<p style="text-align:center;">
+<strong>pct_change(data,colnum,t,nafill)</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br>colnum: número da coluna valores<br>t: número de periodos para acumular<br>nafill: defina o valor para filtrar os valores ‘NA’s’ antes do primeiro valor t
+<p>
+<pre class="r"><code>pct_change(usagdp,colnum=2,t=3)</code></pre>
+<pre><code>##   GDP..current.US..
+## 1                NA
+## 2                NA
+## 3                NA
+## 4         0.1195831
+## 5         0.1273383
+## 6         0.1248558
+## 7         0.1145282
+## 8         0.1120692
+## 9         0.1276145</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>num2month</strong>
+</h3>
+<p>A função num2month transforma o número dos meses em nome dos meses.</p>
+<p style="text-align:center;">
+<strong>num2month(date,abbreviate,ptbr)</strong>
+<p>
+<p style="text-align:center;">
+date: vetor com meses em número<br>abbreviate: abrevia o nome dos meses no resultado<br>ptbr: traduz o resultado para português
+<p>
+<pre class="r"><code>randomts=data.frame(&quot;Mês&quot;=seq(from=1,to=12,by=1),
+            &quot;Valor&quot;=c(0.02,0.06,0.04,-0.06,-0.02,0.01,-0.06,0.03,0.08,0.01,0.05,0.03))
+num2month(randomts[[1]])</code></pre>
+<pre><code>##  [1] &quot;january&quot;   &quot;february&quot;  &quot;march&quot;     &quot;april&quot;     &quot;may&quot;       &quot;june&quot;     
+##  [7] &quot;july&quot;      &quot;august&quot;    &quot;september&quot; &quot;october&quot;   &quot;november&quot;  &quot;december&quot;</code></pre>
+<p>Utilizando o parâmetro ‘abbreviate’ e substituindo no dataframe temos:</p>
+<pre class="r"><code>randomts[[1]]=num2month(randomts[[1]],abbreviate=TRUE)
+randomts</code></pre>
+<pre><code>##    Mês Valor
+## 1  jan  0.02
+## 2  feb  0.06
+## 3  mar  0.04
+## 4  apr -0.06
+## 5  may -0.02
+## 6  jun  0.01
+## 7  jul -0.06
+## 8  aug  0.03
+## 9  sep  0.08
+## 10 oct  0.01
+## 11 nov  0.05
+## 12 dec  0.03</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>month2num</strong>
+</h3>
+<p>A função month2num tranforma o nome dos meses em número dos meses.</p>
+<p style="text-align:center;">
+<strong>month2num</strong>
+<p>
+<p style="text-align:center;">
+date: vetor com nome dos mêses<br>
+<p>
+<pre class="r"><code>randomts=data.frame(&quot;Mês&quot;=c(&quot;january&quot;,&quot;february&quot;,&quot;march&quot;,&quot;april&quot;,&quot;may&quot;,&quot;june&quot;,&quot;july&quot;,&quot;august&quot;,&quot;september&quot;,
+                              &quot;october&quot;,&quot;november&quot;,&quot;december&quot;),
+            &quot;Valor&quot;=c(0.02,0.06,0.04,-0.06,-0.02,0.01,-0.06,0.03,0.08,0.01,0.05,0.03))
+month2num(randomts[[1]])</code></pre>
+<pre><code>##  [1] &quot;01&quot; &quot;02&quot; &quot;03&quot; &quot;04&quot; &quot;05&quot; &quot;06&quot; &quot;07&quot; &quot;08&quot; &quot;09&quot; &quot;10&quot; &quot;11&quot; &quot;12&quot;</code></pre>
+<p>É possível utilizar os nomes de forma abreviada.</p>
+<pre class="r"><code>randomts=data.frame(&quot;Mês&quot;=c(&quot;jan&quot;,&quot;feb&quot;,&quot;mar&quot;,&quot;apr&quot;,&quot;may&quot;,&quot;jun&quot;,&quot;jul&quot;,&quot;aug&quot;,&quot;sep&quot;,
+                              &quot;oct&quot;,&quot;nov&quot;,&quot;dec&quot;),
+            &quot;Valor&quot;=c(0.02,0.06,0.04,-0.06,-0.02,0.01,-0.06,0.03,0.08,0.01,0.05,0.03))
+month2num(randomts[[1]])</code></pre>
+<pre><code>##  [1] &quot;01&quot; &quot;02&quot; &quot;03&quot; &quot;04&quot; &quot;05&quot; &quot;06&quot; &quot;07&quot; &quot;08&quot; &quot;09&quot; &quot;10&quot; &quot;11&quot; &quot;12&quot;</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>me.lag</strong>
+</h3>
+<p>A função me.lag atrasa um vetor se o parâmetro t for maior que 0 ou adianta um vetor se t menor que 0.</p>
+<p style="text-align:center;">
+<strong>me.lag</strong>
+<p>
+<p style="text-align:center;">
+x: vetor<br> t: número de perídos para atrasar (default=1)<br> nafill: valor para filtrar ‘NA’s’ antes do primeiro valor de t<br> extrapolate: se TRUE, extrapola os valores excedentes, somente se t&gt;0.
+</p>
+<pre class="r"><code># Utilização simples
+me.lag(usagdp[[2]],t=3)</code></pre>
+<pre><code>## [1]       NA       NA       NA 14.99205 15.54258 16.19701 16.78485 17.52175
+## [9] 18.21930</code></pre>
+<pre class="r"><code># Utilizando com extrapolação
+me.lag(usagdp[[2]],t=3,extrapolate = TRUE)</code></pre>
+<pre><code>##  [1]       NA       NA       NA 14.99205 15.54258 16.19701 16.78485 17.52175
+##  [9] 18.21930 18.70719 19.48539 20.54434</code></pre>
+<pre class="r"><code># Adiantando um vetor
+me.lag(usagdp[[2]],t=-3)</code></pre>
+<pre><code>## [1] 16.78485 17.52175 18.21930 18.70719 19.48539 20.54434       NA       NA
+## [9]       NA</code></pre>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>me.spread</strong>
+</h3>
+<p>A função me.spread transforma as colunas em linhas e linhas em colunas.</p>
+<p style="text-align:center;">
+<strong>me.spread</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br> namenc: número da nova coluna<br>mode: se os resultados estão incorretos, tente definir esse parâmetro como TRUE
+<p>
+<p>Preparando esse documento foi necessario extrair a série usagdp do Banco Mundial (World Bank), mas os dados deviam se preparados para uma melhor explicação. Durante o processo, após o filtro das variáveis, os dados estavam organizados em formato longo, veja abaixo:</p>
+<pre><code>##             Series name 2010-01-01 2011-01-01 2012-01-01 2013-01-01 2014-01-01
+## 1     GDP (current US$)  14.992053  15.542581  16.197007  16.784849  17.521747
+## 2 GDP growth (annual %)   2.563767   1.550836   2.249546   1.842081   2.451973</code></pre>
+<p>A função me.spread pode resolver esse problema. Veja como utilizar a função e o resultado:</p>
+<pre class="r"><code>me.spread(usagdp_old)</code></pre>
+<pre><code>##              GDP (current US$) GDP growth (annual %)
+## 1 2010-01-01      14.992052727      2.56376655876581
+## 2 2011-01-01      15.542581104      1.55083550568156
+## 3 2012-01-01      16.197007349      2.24954585236992
+## 4 2013-01-01       16.78484919      1.84208107101102
+## 5 2014-01-01      17.521746534      2.45197303536034</code></pre>
+<p>Se quiser retornar ao formato anterior basta utilizar a função novamente.</p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>stattable</strong>
+</h3>
+<p>A função stattable cria uma tabela com estatísticas descritivas.</p>
+<p style="text-align:center;">
+<strong>stattable</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br> horiz: se TRUE, o resultado será um dataframe na horizontal<br>mode: se os resultados estiverem incorretos, tente definir esse parâmetro como TRUE
+<p>
+<p>Se seus dados são uma série temporal, não use a coluna com as datas no parâmetro ‘data’, para fazer isso use colchetes ([linha,coluna]) como no exemplo abaixo.</p>
+<pre class="r"><code>stattable(usagdp[,2:3])</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   Statistic GDP..current.US.. GDP.growth..annual...
+##   &lt;chr&gt;                 &lt;dbl&gt;                 &lt;dbl&gt;
+## 1 &quot;Min.   &quot;              15.0                  1.55
+## 2 &quot;1st Qu.&quot;              16.2                  1.84
+## 3 &quot;Median &quot;              17.5                  2.25
+## 4 &quot;Mean   &quot;              17.6                  2.25
+## 5 &quot;3rd Qu.&quot;              18.7                  2.56
+## 6 &quot;Max.   &quot;              20.5                  2.93</code></pre>
+<p><br></p>
+<p><br></p>
+<h2 style="text-align:center;font-size:32px">
+<strong>Funções de modelos gráficos</strong>
+</h2>
+<br>
+<p style="margin-left:auto">
+<p>As funções de modelos gráficos tem como objetivo facilitar a criação de gráficos, ela é recomendada para novos programadores, eles têm parâmetros mais fáceis e em menor número do que as funções plot, mas a personalização gráfica é mais limitada. A maneira mais simples de criar gráficos com o pacote metools é usar as funções de modelos gráficos, essas funções usam as funções de plot (do metools) para obter argumentos simplificados; usando essas funções, teremos uma criação de gráficos mais fácil, porém mais limitada.</p>
+</p>
+<h3 style="font-size:22px;">
+<strong>gm.col</strong>
+</h3>
+<p>gm.col cria um gráfico de colunas.</p>
+<p style="text-align:center;">
+<strong>gm.col</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título do eixo y <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> percent: se TRUE, eixo y em porcentagem <br> fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> cserie: muda a cor da série <br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br> cbserie: cor da borda da série
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+gm.col(randoms,ncolx = 1,ncoly = 2,ntimes = 8,title = &quot;Metools - gm.col&quot;,xlab = NULL,ylab = NULL)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-33-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.col_ord</strong>
+</h3>
+<p>gm.col_ord cria um gráfico de colunas ordenado.</p>
+<p style="text-align:center;">
+<strong>gm.col</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título do eixo y <br> percent: se TRUE, eixo y em porcentagem <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> dec: Se TRUE, o gráfico será em ordem decrescente. fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> cserie: muda a cor da série <br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br> cbserie: cor da borda da série
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+gm.col_ord(randoms,ncolx = 1,ncoly = 2,ntimes = 8,title = &quot;Metools - gm.col_ord&quot;,xlab = NULL,ylab = NULL,cserie = &#39;yellow&#39;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-34-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Utilizando o argumento ‘dec’ temos:</p>
+<pre class="r"><code>gm.col_ord(randoms,ncolx = 1,ncoly = 2,ntimes = 8,title = &quot;Metools - gm.col_ord&quot;,xlab = NULL,ylab = NULL,cserie = &#39;yellow&#39;,dec=TRUE)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-35-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.col_ord_wl</strong>
+</h3>
+<p>gm.col_ord_wl cria um gráfico de colunas ordenado com legenda.</p>
+<p style="text-align:center;">
+<strong>gm.col</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> legtitle: título da legenda<br> xlab: título do eixo x <br> ylab: título do eixo y <br> percent: se TRUE, eixo y em porcentagem <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> dec: Se TRUE, o gráfico será em ordem decrescente. fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> colors: cor das barras (um vetor com a cor de cada barra)<br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br> cbserie: cor da borda da série<br> legwpos: posição das palavras da legenda (número)<br> legheight: altura da legenda
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+gm.col_ord_wl(randoms,ncolx = 1,ncoly = 2,ntimes = 5,title = &quot;Metools - gm.col_ord_wl&quot;,legtitle = NULL,xlab = NULL,ylab = NULL,legwpos = -2.5)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-36-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.col_wl</strong>
+</h3>
+<p>gm.col_wl cria um gráfico de colunas com legenda.</p>
+<p style="text-align:center;">
+<strong>gm.col</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> legtitle: título da legenda<br> xlab: título do eixo x <br> ylab: título do eixo y <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> percent: se TRUE, eixo y em porcentagem <br> fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> colors: cor das barras (um vetor com a cor de cada barra)<br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br> cbserie: cor da borda da série<br> legwpos: posição das palavras da legenda (número)<br> legheight: altura da legenda
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+gm.col_wl(randoms,ncolx = 1,ncoly = 2,ntimes = 5,title = &quot;Metools - gm.col_wl&quot;,legtitle = NULL,xlab = NULL,ylab = NULL,legwpos = -2.5)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.tscol</strong>
+</h3>
+<p>gm.tscol cria um gráfico de colunas com formato de série temporal. Os dados não precisam ser um objeto ts.</p>
+<p style="text-align:center;">
+<strong>gm.tscol</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> ylab: título do eixo y <br> percent: se TRUE, eixo y em porcentagem <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> datebreaks: intervalo entre as datas no eixo x (default=“1 month”)<br> dateformat: formato da data no eixo x (string com formato de data) (default =“%Y-%m”)<br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br> cbserie: cor da borda da série
+<p>
+<pre class="r"><code>gm.tscol(usagdp,ncolx = 1,ncoly = 3,ntimes=12,title = &quot;Metools - gm.tscol&quot;,datebreaks = &quot;1 year&quot;,ylab = NULL,percent = TRUE,div100 = TRUE)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-38-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.tscol2</strong>
+</h3>
+<p>gm.tscol2 cria um gráfico de colunas com formato de série temporal, a diferença no tscol2 é que é possível escolhar a cor da série. Os dados não precisam ser um objeto ts.</p>
+<p style="text-align:center;">
+<strong>gm.tscol2</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> ylab: título do eixo y <br> percent: se TRUE, eixo y em porcentagem <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> datebreaks: intervalo entre as datas no eixo x (default=“1 month”)<br> dateformat: formato da data no eixo x (string com formato de data) (default =“%Y-%m”)<br> cserie: cor da série<br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br> cbserie: cor da borda da série
+<p>
+<pre class="r"><code>gm.tscol2(usagdp,ncolx = 1,ncoly = 3,ntimes=12,title = &quot;Metools - gm.tscol2&quot;,datebreaks = &quot;1 year&quot;,ylab = NULL,percent = TRUE,div100 = TRUE,cserie=&quot;orange&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-39-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.line</strong>
+</h3>
+<p>gm.line cria um gráfico de linha.</p>
+<p style="text-align:center;">
+<strong>gm.line</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título do eixo y <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> percent: se TRUE, eixo y em porcentagem <br> fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> lwdserie: tamanho da série<br> cserie: cor da serie<br> clines: cor das linhas do gráfico<br> ctext: cor das palavras do gráfico<br> cbackground: cor do plano de fundo do gráfico
+<p>
+<pre class="r"><code>gm.line(usagdp,ncolx = 1,ncoly = 2,ntimes=12,title = &quot;Metools - gm.line&quot;,xlab=NULL,ylab = NULL)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>gm.tsl</strong>
+</h3>
+<p>gm.tsl cria um gráfico de linha em formato de série temporal. Os dados nao precisam ser um objeto ts.</p>
+<p style="text-align:center;">
+<strong>gm.tsl</strong>
+<p>
+<p style="text-align:center;">
+data : objeto dataframe<br> ncolx: número da coluna x no dataframe <br> ncoly: número da coluna y no dataframe <br> ntimes: número de observações a serem plotadas (contagem por tail) <br> title: título do gráfico <br> ylab: título do eixo y <br> percent: se TRUE, eixo y em porcentagem <br> div100: se o dado em porcentagem não estiver no formato decimal, defina TRUE. <br> fontsize: altera o tamanho de todas as palavras no gráfico (apenas números) <br> lwdserie: tamanho da série<br> datebreaks: intervalo entre as datas no eixo x (default=“1 month”)<br> dateformat: formato da data no eixo x (string com formato de data) (default =“%Y-%m”)<br> cserie: cor da serie<br> clines: cor das linhas do gráficos <br> ctext: cor das palavras do gráficos <br> cbackground: cor do plano de fundo do gráfico <br>
+<p>
+<pre class="r"><code>gm.tsl(usagdp,ncolx = 1,ncoly = 3,ntimes=12,title = &quot;Metools - gm.tsl&quot;,ylab = NULL,percent = TRUE, div100= TRUE,datebreaks = &quot;1 year&quot;,dateformat = &quot;%Y&quot;,lwdserie = 2)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-41-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p><br></p>
+<h2 style="text-align:center;font-size:32px">
+<strong>Funções Plot</strong>
+</h2>
+<br>
+<p style="margin-left:auto">
+<p>As funções de plot são a forma mais completa de criar gráficos utilizando o pacote metools, elas tem um número significativo de parâmetros para uma melhor e mais detalhada customização gráfica. Essas funções iniciam com o prefixo p, isso inclui gráficos de uma série e algumas ferramentas com cores e valores para os eixos. Para criar gráficos de mais de uma série, entre as funções plot existem as funções multi plot, elas tem prefixo mp.</p>
+</p>
+<h3 style="font-size:22px;">
+<strong>p.line</strong>
+</h3>
+<p>p.line cria um gráfico de linha.</p>
+<p style="text-align:center;">
+<strong>p.line</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe <br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cserie: cor da série <br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+p.line(randoms,randoms[[1]],randoms[[2]],title = &quot;Metools - p.line&quot;,xlab = NULL,ylab = NULL,note=&quot;Com as funções plot podemos adicionar notas&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-42-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.col</strong>
+</h3>
+<p>p.col cria um gráfico de colunas.</p>
+<p style="text-align:center;">
+<strong>p.col</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe <br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = igual ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cserie: cor da série <br> cbserie: cor da borda da série (default= igual cserie)<br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+p.line(randoms,randoms[[1]],randoms[[2]],title = &quot;Metools - p.col&quot;,xlab = NULL,ylab = NULL,cscales=&quot;blue&quot;,note=&quot;Com as funções plot temos maior possibilidade de customização&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-43-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.col_ord</strong>
+</h3>
+<p>p.col_ord cria um gráfico de colunas ordenado.</p>
+<p style="text-align:center;">
+<strong>p.col_ord</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe<br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> dec: Se TRUE, o gráfico será em ordem decrescente. (default=FALSE)<br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cserie: cor da série <br> cbserie: cor da borda da série (default= igual cserie)<br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+p.col_ord(randoms,randoms[[1]],randoms[[2]],title = &quot;Metools - p.col_ord&quot;,xlab = NULL,ylab = NULL,cbserie=&#39;blue&#39;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-44-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.col_ord_wl</strong>
+</h3>
+<p>p.col_ord_wl cria um gráfico de colunas ordenado com legenda.</p>
+<p style="text-align:center;">
+<strong>p.col_ord_wl</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe <br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> dec: Se TRUE, o gráfico será em ordem decrescente. yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = igual ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cbserie: cor da borda da série (default= igual cserie)<br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> legtitle: título da legenda<br> legsize: tamanho da legenda<br> cleg: cor da legenda<br> legheight: altura da legenda<br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> legpos: posição da legenda (default= right)<br> legdir: direção da legenda (default=“horizontal”)<br> legcol: cor do box da legenda<br> legspa: espaçamento no box da legenda<br> legvjust: ajuste vertical do box da legenda<br> colors: cor das barras, necessita do mesmo número de correspondências.<br>
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+p.col_ord_wl(randoms,randoms[[1]],randoms[[2]],title = &quot;Metools - p.col_ord_wl&quot;,xlab = NULL,ylab = NULL,legspa = 0.3,legvjust = -0.9,legsize = 12)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-45-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.col_wl</strong>
+</h3>
+<p>p.col_wl make a bar plot with legend.</p>
+<p style="text-align:center;">
+<strong>p.col_wl</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe <br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cserie: cor da série <br> cbserie: cor da borda da série (default= igual cserie)<br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> legtitle: título da legenda<br> legsize: tamanho da legenda<br> cleg: cor da legenda<br> legheight: altura da legenda<br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> legpos: posição da legenda (default= right)<br> legdir: direção da legenda (default=“horizontal”)<br> legcol: cor do box da legenda<br> legspa: espaçamento no box da legenda<br> legvjust: ajuste vertical do box da legenda<br> colors: cor das barras (um vetor com a cor de cada barra)
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+p.col_wl(randoms,randoms[[1]],randoms[[2]],title = &quot;Metools - p.col_wl&quot;,xlab = NULL,ylab = NULL,legspa = 0.3,legvjust = -0.9,legsize = 12)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-46-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Tanto na função p.col_wl como na p.col_ord_wl é possível alterar a cor das barras, para fazer isso basta alterar o parâmetro ‘color’. Veja no exemplo abaixo:</p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;Valor&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3))
+
+p.col_wl(randoms,randoms[[1]],randoms[[2]],title = &quot;Metools - p.col_wl&quot;,xlab = NULL,ylab = NULL,note=&#39;A função p.gradientcolor será explicada mais a frente&#39;,legspa = 0.3,legvjust = -0.9,legsize = 12,
+         colors=p.gradientcolor(&#39;blue&#39;,&#39;red&#39;,12))</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-47-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.tscol</strong>
+</h3>
+<p>p.tscol cria um gráfico de colunas em formato de série temporal. Os dados não precisam ser um objeto ts.</p>
+<p style="text-align:center;">
+<strong>p.tscol</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe <br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> dateformat: formato da data no eixo x (string com formato de data) (default =“%Y-%m”)<br> datebreaks: intervalo entre as datas no eixo x (default=“1 month”)<br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cserie: cor da série <br> cbserie: cor da borda da série (default= igual cserie)<br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>p.tscol(usagdp,as.Date(usagdp[[1]]),usagdp[[2]],title = &quot;Metools - p.tscol&quot;,xlab = NULL,ylab = NULL,datebreaks = &quot;1 year&quot;,dateformat=&quot;%Y&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-48-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Como a função p.tscol provavelmente será a mais utilizada do pacote, ela será melhor explorada mais a frente.<br>É importante prestar atenção no parâmetro ‘xaxis’, sua entrada não precisa ser um objeto ts, mas necessita ser um vetor de classe Data. Para garantir que a classe estará correta, você pode utilizar a função as.Date() na entrada do parâmetro ‘xaxis’. Outro parâmetro para prestar atenção é o ‘datebreaks’, se no exemplo anterior não definirmos esse parâmetro como “1 year” , olhe o resultado que seria obtido:</p>
+<pre class="r"><code>p.tscol(usagdp,as.Date(usagdp[[1]]),usagdp[[2]],title = &quot;Metools - p.tscol&quot;,xlab = NULL,ylab = NULL,dateformat=&quot;%Y&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-49-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Isso ocorre porque o valor padrão do parâmetro ‘datebreaks’ é “1 month”, se a coluna data tivesse a frequência mensal a função teria funcionado normalmente. Então, é importante observar o intervalo entre as datas do seus dados afim de ajustar corretamente ao parâmetro ‘datebreaks’.</p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.tsl</strong>
+</h3>
+<p>p.tsl cria um gráfico de linhas em formato de série temporal. Os dados não necessitam ser um objeto ts.</p>
+<p style="text-align:center;">
+<strong>p.tsl</strong>
+<p>
+<p style="text-align:center;">
+data: objeto dataframe <br> xaxis: dados do eixo x <br> yaxis: dados do eixo y <br> dateformat: formato da data no eixo x (string com formato de data) (default =“%Y-%m”)<br> datebreaks: intervalo entre as datas no eixo x (default=“1 month”)<br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cserie: cor da série <br> cticks: cor dos ticks dos eixos <br> lwdserie: tamanho da série <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>p.tsl(usagdp,as.Date(usagdp[[1]]),usagdp[[2]],title = &quot;Metools - p.tsl&quot;,xlab = NULL,ylab = NULL,datebreaks = &quot;1 year&quot;,dateformat=&quot;%Y&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-50-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>Por fim veremos na sequencia as funções ferramentas de plot e funções multiplot. As funções ferramentas de plot tem o mesmo prefixo das funções plot (p.), essas funções tem utilidade sem gráfico, porém, seu objetivo principal é oferecer suporte as função de plot do pacote metools.</p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.gradientcolor</strong>
+</h3>
+<p>A função p.gradientcolor é designada para tornar mais fácil a criação de uma paleta de cores gradiente. Função recomendada para colorir graficos criados com as funções plot do pacote metools.</p>
+<p style="text-align:center;">
+<strong>p.gradientcolor</strong>
+<p>
+<p style="text-align:center;">
+color1: Primeira cor do gradiente<br> color2: Ultima cor do gradiente<br> n: Número de cores<br>
+<p>
+<pre class="r"><code>p.gradientcolor(color1=&quot;white&quot;,color2=&quot;blue&quot;,n=10)</code></pre>
+<pre><code>##  [1] &quot;#FFFFFF&quot; &quot;#E2E2FF&quot; &quot;#C6C6FF&quot; &quot;#AAAAFF&quot; &quot;#8D8DFF&quot; &quot;#7171FF&quot; &quot;#5555FF&quot;
+##  [8] &quot;#3838FF&quot; &quot;#1C1CFF&quot; &quot;#0000FF&quot;</code></pre>
+<p>Usando em um gráfico do metools temos:</p>
+<pre class="r"><code>p.col_wl(usagdp,format.Date(usagdp[[1]],format=&quot;%Y&quot;),usagdp[[2]],xlab=NULL,ylab=NULL,title = &quot;Metools - p.gradientcolor&quot;,colors = p.gradientcolor(color1=&quot;white&quot;,color2=&quot;blue&quot;,n=10),legspa = 0.25,legvjust = -1.1)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-52-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.seqdatebreaks</strong>
+</h3>
+<p>A função p.seqdatebreaks é utilizada para separar eixos de data em determinados periodos de tempo. Função recomendada para selecionar intervalos de tempo dos graficos criados com as funções plot do pacote metools.</p>
+<p style="text-align:center;">
+<strong>p.seqdatebreaks</strong>
+<p>
+<p style="text-align:center;">
+x: Dados temporais de uma série<br> periodicity: Intervalo de tempo(caractére)<br>
+<p>
+<pre class="r"><code>p.seqdatebreaks(x = as.Date(usagdp[[1]]),periodicity = &quot;2 years&quot;)</code></pre>
+<pre><code>## [1] &quot;2010-01-01&quot; &quot;2012-01-01&quot; &quot;2014-01-01&quot; &quot;2016-01-01&quot; &quot;2018-01-01&quot;</code></pre>
+<p>Essa função é utilizada automaticamente quando você define o parâmetro datebreaks em uma função de plot do metools.</p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.colorbypositive</strong>
+</h3>
+<p>A função p.colorbypositive cria um vetor com cores de acordo com o sinal dos valores. Função recomendada para colorir graficos criados com as funções plot do pacote metools.</p>
+<p style="text-align:center;">
+<strong>p.colorbypositive</strong>
+<p>
+<p style="text-align:center;">
+x: vetor numérico colorp: Cor dos valores positivos (default=Green)<br> colorn: Cor dos valores negativos (default=Red)<br>
+<p>
+<pre class="r"><code>v=c(-3,-2,2,-2,3,2)
+
+p.colorbypositive(v)</code></pre>
+<pre><code>## [1] &quot;#B21717&quot; &quot;#B21717&quot; &quot;#17B221&quot; &quot;#B21717&quot; &quot;#17B221&quot; &quot;#17B221&quot;</code></pre>
+<p>Utilizando em um gráfico metools temos:</p>
+<pre class="r"><code>randoms=data.frame(&quot;tempo&quot;=1:length(v),&quot;valor&quot;=v)
+
+p.col(randoms,randoms[[1]],randoms[[2]],title=&quot;Meplot - p.colorbypositive&quot;,ylab=NULL,xlab=NULL,cbserie=&#39;black&#39;,
+      cserie=p.colorbypositive(v))</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-55-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>p.colorbyvar</strong>
+</h3>
+<p>A função p.colorbyvar cria um vetor com cores de acordo com a variação dos valores. Função recomendada para colorir graficos criados com as funções plot do pacote metools.</p>
+<p style="text-align:center;">
+<strong>p.colorbyvar</strong>
+<p>
+<p style="text-align:center;">
+x: a numeric vector colorp: Cor dos valores positivos (default=Green)<br> colorn: Cor dos valores negativos (default=Red)<br> lag: Atraso para comparação (default=1)
+<p>
+<pre class="r"><code>p.colorbyvar(v)</code></pre>
+<pre><code>## [1] &quot;#B21717&quot; &quot;#17B221&quot; &quot;#17B221&quot; &quot;#B21717&quot; &quot;#17B221&quot; &quot;#B21717&quot;</code></pre>
+<p>Utilizando em um gráfico metools temos:</p>
+<pre class="r"><code>randoms=data.frame(&quot;tempo&quot;=1:length(v),&quot;valor&quot;=v)
+
+p.col(randoms,randoms[[1]],randoms[[2]],title=&quot;Meplot - p.colorbyvar&quot;,ylab=NULL,xlab=NULL,cbserie=&#39;black&#39;,
+      cserie=p.colorbyvar(v))</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-57-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>Finalmente chegamos as funções multiplot, essas funções tem o prefixo mp. e basicamente aplicam os parâmetros das funções plot do metools a um objeto ‘ggplot graphic’. Utilize essas função para criar gráficos com mais de uma série.</p>
+<h3 style="font-size:22px;">
+<strong>mp.s</strong>
+</h3>
+<p>mp.s cria um gráfico com uma ou mais série. O parâmetro ‘object’ requer um objeto ‘ggplot graphic’ (Veja nos exemplos).</p>
+<p style="text-align:center;">
+<strong>mp.s</strong>
+<p>
+<p style="text-align:center;">
+object: objeto ‘ggplot graphic’<br> xaxis: eixo x de uma das séries <br> yaxis: eixo y de uma das séries <br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cticks: cor dos ticks dos eixos <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Periodo&quot;=letters[1:12],
+            &quot;V1&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3),
+            &quot;V2&quot;=c(4,2,-3,-5,-1,5,8,-2,7,3,5,3))
+
+g=ggplot()+geom_line(aes(x=randoms[[1]],y=randoms[[2]],color=&#39;blue&#39;,group=1),lwd=1.5)+geom_line(aes(x=randoms[[1]],y=randoms[[3]],color=&#39;red&#39;,group=1),lwd=1.5)
+
+mp.s(g,randoms[[1]],randoms[[3]],title=&quot;Metools - mp.s&quot;,xlab=NULL,ylab=NULL)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-58-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Outros exemplos:</p>
+<pre class="r"><code>g=ggplot()+geom_col(aes(x=randoms[[1]],y=randoms[[2]],group=1),color=&#39;black&#39;,fill=&#39;black&#39;,lwd=1.5)+geom_line(aes(x=randoms[[1]],y=randoms[[3]],group=1),color=&#39;red&#39;,lwd=1.5)
+
+mp.s(g,randoms[[1]],randoms[[3]],title=&quot;Metools - mp.s&quot;,xlab=NULL,ylab=NULL)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-59-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<h3 style="font-size:22px;">
+<strong>mp.ts</strong>
+</h3>
+<p>mp.ts cria um gráfico em formato de série temporal com uma ou mais séries. Os dados não necessitam ser um objeto ts. O parâmetro ‘object’ requer um objeto ‘ggplot object’ (Veja nos exemplos).</p>
+<p style="text-align:center;">
+<strong>mp.ts</strong>
+<p>
+<p style="text-align:center;">
+object: objeto ‘ggplot graphic’<br> xaxis: eixo x de uma das séries <br> yaxis: eixo y de uma das séries <br> dateformat: formato da data no eixo x (string com formato de data) (default =“%Y-%m”)<br> datebreaks: intervalo entre as datas no eixo x (default=“1 month”)<br> ybreaks: número de intervalos do eixo y (padrão = 10) <br> percent: se TRUE, eixo y em porcentagem (padrão = F) <br> yaccuracy: arredondamento para o eixo y (padrão = 0.01) <br> ydecimalmark: y separador decimal (padrão = “.”) <br> title: título do gráfico <br> xlab: título do eixo x <br> ylab: título de eixo y <br> stitle: subtítulo do gráfico <br> note: nota de rodapé <br> ctitles: cor dos títulos (title, xlab, ylab) <br> cscales: cor das escalas (padrão = mesmos ctitles) <br> cbgrid: cor do plano de fundo do grid <br> clgrid: cor das linhas do grid <br> cplot: cor do plano de fundo da plotagem <br> cticks: cor dos ticks dos eixos <br> pnote: posição da nota (padrão = 1) (apenas números) <br> cbord: cor da borda da plotagem (padrão = mesma cplot) <br> titlesize: tamanho do título (padrão = 20) (apenas números) <br> wordssize: tamanho das palavras (padrão = 12) (apenas números) <br> snote: tamanho da nota (padrão = 11) (apenas números) <br> xlim: limite do eixo x (padrão = NULL)
+<p>
+<pre class="r"><code>randoms=data.frame(&quot;Data&quot;=seq.Date(as.Date(&quot;2019-01-01&quot;),as.Date(&quot;2019-12-01&quot;),by=&#39;month&#39;),
+            &quot;V1&quot;=c(2,6,4,-6,-2,1,-6,3,8,1,5,3),
+            &quot;V2&quot;=c(4,2,-3,-5,-1,5,8,-2,7,3,5,3))
+
+g=ggplot()+geom_line(aes(x=randoms[[1]],y=randoms[[2]],color=&#39;blue&#39;,group=1),lwd=1.5)+geom_line(aes(x=randoms[[1]],y=randoms[[3]],color=&#39;red&#39;,group=1),lwd=1.5)
+
+mp.ts(g,randoms[[1]],randoms[[3]],title=&quot;Metools - mp.ts&quot;,xlab=NULL,ylab=NULL,dateformat=&quot;%m/%y&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-60-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>É possível utilizar as funções multiplo para conseguir criar mais tipos de gráficos, o gráfico de área é um exemplo:</p>
+<pre class="r"><code>randoms=data.frame(&quot;Data&quot;=seq.Date(as.Date(&quot;2019-01-01&quot;),as.Date(&quot;2019-12-01&quot;),by=&#39;month&#39;),
+            &quot;V&quot;=c(2,4,6,3,5,8,6,3,5,4,5,6))
+
+g=ggplot()+geom_area(aes(x=randoms[[1]],y=randoms[[2]],group=1),color=&#39;blue&#39;,fill=&#39;blue&#39;,lwd=1.5)
+
+mp.ts(g,randoms[[1]],randoms[[3]],title=&quot;Metools - mp.ts&quot;,xlab=NULL,ylab=NULL,dateformat = &quot;%b&quot;)</code></pre>
+<p><img src="brazil_files/figure-html/unnamed-chunk-61-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br> <br>
+<h1 style="text-align:center">
+Sobre
+</h1>
+<p><br> O pacote metools oferece suporte a preparação de dados e criação de gráficos, prioritariamente a séries temporais e análises/relatórios macroeconômicos.<br> Para saber mais sobre o pacote metools, acesse o site oficial do pacote: <a href="https://metoolsr.wordpress.com/" class="uri">https://metoolsr.wordpress.com/</a><br> Guia oficial: <a href="https://jvg0mes.github.io/metoolsr" class="uri">https://jvg0mes.github.io/metoolsr</a><br> Guia no site: <a href="https://metoolsr.wordpress.com/metools/" class="uri">https://metoolsr.wordpress.com/metools/</a><br> Download do pacote em tar.gz: <a href="https://metoolsr.wordpress.com/download/" class="uri">https://metoolsr.wordpress.com/download/</a><br> Informar erros: <a href="https://metoolsr.wordpress.com/contact/" class="uri">https://metoolsr.wordpress.com/contact/</a><br> <br></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
